@@ -4,6 +4,9 @@ This project serves a simple API using the [express](http://expressjs.com/) web 
 
 The data is kept in memory
 
+
+https://fullstackopen-p3-phonebook.herokuapp.com/
+
 ## Available endpoints
 
 Table:
