@@ -1,3 +1,8 @@
+/**
+ * CLI to manually :
+ * - create a new person entry on the DB 
+ * - get all the available entries in the DB
+ */
 const mongoose = require('mongoose')
 
 if(process.argv.length < 3 || process.argv.length > 6) {
