@@ -2,29 +2,30 @@
 ### Heroku
 ### @baseUrl = https://fullstackopen-p3-backend.herokuapp.com
 @baseUrl = http://localhost:3001
-@id=62f012f37613218bc5a70c34
+@id=62f8db8baabe0470b87f4186
 
 ### Get all persons
 GET {{baseUrl}}/api/persons HTTP/1.1
 
-### Get single person
+### Get a single person
 GET {{baseUrl}}/api/persons/{{id}} HTTP/1.1
 
-### Add a  person
+### Add a person
 POST {{baseUrl}}/api/persons HTTP/1.1
 content-type: application/json
 
 {
-    "name": "sergio",
-    "number": "0099944499"
+    "name": "sergioruizsan",
+    "number": "00-99944499"
 }
 
-### Add a  person
+### Update a person
 PUT {{baseUrl}}/api/persons/{{id}} HTTP/1.1
 content-type: application/json
 
 {
-    "number": "9944499900"
+    "name": "sergioruizsan",
+    "number": "00-99000000"
 }
 
 ### Delete a person

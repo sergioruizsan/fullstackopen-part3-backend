@@ -53,26 +53,6 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
-    console.log(request.body)
-    if (!body) {
-        return response.status(HTTP_BAD_REQUEST).json({
-            error: 'content missing'
-        })
-    }
-
-    const name = body.name
-    if (!name) {
-        return response.status(HTTP_BAD_REQUEST).json({
-            error: 'name attribute is missing'
-        })
-    }
-
-    const number = body.number
-    if (!number) {
-        return response.status(HTTP_BAD_REQUEST).json({
-            error: 'number attribute is missing'
-        })
-    }
 
     const person = new Person({
         name: body.name,
@@ -95,7 +75,10 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: body.number,
     }
 
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    Person.findByIdAndUpdate(
+        request.params.id, 
+        person, 
+        { new: true, runValidators: true, context: 'query' })
         .then(updatedPerson => {
             if (updatedPerson) {
                 response.json(updatedPerson)
@@ -123,6 +106,12 @@ const errorHandler = (error, request, response, next) => {
     console.log(error.name)
     if (error.name === 'CastError') { //invalid :id
         return response.status(HTTP_BAD_REQUEST).send({ error: 'malformatted id' })
+    }
+    if (error.name === 'ValidationError') {
+        return response.status(HTTP_BAD_REQUEST).send({ error: error.message})
+    }
+    if (error.message.indexOf('duplicate key error') !== -1) {
+        return response.status(HTTP_BAD_REQUEST).send({ error: 'Person already exists'})
     }
 
     next(error)

@@ -13,8 +13,26 @@ mongoose
     })
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minLength: 3,
+        required: true,
+        unique:true
+    },
+    number: {
+        type: String,
+        minLength: 8,
+        required: true,
+        validate: {
+            validator: (value) => {
+                if(value.indexOf('-')){
+                    return /^\d{2,3}-\d+$/.test(value)
+                }
+                return false
+            },
+            message: props => `${props.value} is not a valid number`
+        }
+    },
 }).set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
